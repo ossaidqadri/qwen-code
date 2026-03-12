@@ -271,6 +271,33 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines. Key points:
 5. Update documentation for user-facing changes
 6. Follow Conventional Commits for commit messages
 
+## Windows-Specific Notes
+
+### Git Commit Message Escaping
+
+Windows cmd.exe handles quotes differently than Unix shells. When using `git commit -m`:
+
+```bash
+# ❌ FAILS - spaces in arguments are parsed as separate commands
+git commit -m "fix: ACP writeTextFile path validation"
+
+# ✅ WORKS - use file for message
+echo fix: ACP writeTextFile path validation > .git\COMMIT_MSG.txt
+git commit -F .git\COMMIT_MSG.txt
+
+# ✅ WORKS - simple message without spaces
+git commit -m "fix: validation"
+```
+
+For multi-line commit messages:
+
+```bash
+echo fix: ACP writeTextFile path validation > .git\COMMIT_MSG.txt
+echo. >> .git\COMMIT_MSG.txt
+echo Fixes #2294 >> .git\COMMIT_MSG.txt
+git commit -F .git\COMMIT_MSG.txt
+```
+
 ## Useful Commands Reference
 
 | Command             | Description                                                          |
